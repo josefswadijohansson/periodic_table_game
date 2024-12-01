@@ -1,0 +1,48 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    background-color: #D6C0B3;
+    overflow: hidden;
+}
+
+header{
+    height: 92px;
+    width: 100vw;
+    border-radius: 32px;
+
+    margin-top: -32px;
+
+    background-color: #AB886D;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    height: 92px;
+    width: 100vw;
+    margin-bottom: -32px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+
+    font-family: 'Caveat';
+
+    background-color: #AB886D;
+
+    border-radius: 32px;
+}
+
+footer > h2{
+    margin-bottom: 32px;
+}

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-function Header(){
+function Header(props){
     return (
     <header>
+
     </header>);
 }
 

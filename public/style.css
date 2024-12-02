@@ -68,6 +68,8 @@ header, footer, html{
 
     padding-right: 20px;
     padding-top: 10px;
+
+    font-size: 28pt;
 }
 
 .game-info-window > #score{
@@ -79,6 +81,8 @@ header, footer, html{
 
     padding-left: 20px;
     padding-top: 10px;
+
+    font-size: 28pt;
 }
 
 .game-info-window > #question{
@@ -93,7 +97,9 @@ header, footer, html{
     justify-content: center;
     align-items: end;
 
-    padding-bottom: 48px;
+    font-size: 32pt;
+
+    padding-bottom: 30px;
 }
 
 .game-info-window > .element-card-container{

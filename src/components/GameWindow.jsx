@@ -1,24 +1,55 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import Timer from './Timer';
+import Score from './Score';
+import ElementCard from './ElementCard';
+import Question from './Question';
 
-function GameWindow(){
+import periodicTable from '../periodicTableData';
+
+function GameWindow(props){
+    const [correctElement, setCorrectElement] = useState("answer-4");
+    const [showcasingElement, setShowcasingElement] = useState("");
+
+    useEffect(() => {
+        startGame(props.mode);
+    }, [props.mode]);
+
+    function handleClick(event){
+        const {value} = event.target;
+
+        console.log(value == correctElement);
+    }
+
+    function getRandomElement() {
+        const randomIndex = Math.floor(Math.random() * periodicTable.length);
+        return periodicTable[randomIndex];
+    }
+
+    function startGame(mode){
+        if (mode === "speedMode") {
+            const randomElement = getRandomElement();
+            console.log(randomElement);
+            setShowcasingElement(randomElement); // Update the showcasing element
+        }
+    }
+
     return (
     <main>
         <div className='game-info-window'>
-            <h1 id='timer'>30s</h1>
-            <h1 id='score'>5 / 10</h1>
+            <Timer time={30}/>
+            <Score score={5} possibleScore={32}/>
             <div className='element-card-container'>
-                <div className="element-card">
-                    H
-                </div>
+                <ElementCard symbol={showcasingElement.symbol}/>
             </div>
-            <h1 id='question'>What do you call this element?</h1>
+
+            <Question question={"What do you call this element?"}/>
         </div>
 
         <div id='game-answer-buttons-container'>
-            <button id="game-answer-button-1">Cobalt</button>
-            <button id="game-answer-button-2">Hafnium</button>
-            <button id="game-answer-button-3">Tungsten</button>
-            <button id="game-answer-button-4">Hydrogen</button>
+            <button onClick={handleClick} id="game-answer-button-1" value={"answer-1"}>Cobalt</button>
+            <button onClick={handleClick} id="game-answer-button-2" value={"answer-2"}>Hafnium</button>
+            <button onClick={handleClick} id="game-answer-button-3" value={"answer-3"}>Tungsten</button>
+            <button onClick={handleClick} id="game-answer-button-4" value={"answer-4"}>Hydrogen</button>
         </div>
     </main>);
 }

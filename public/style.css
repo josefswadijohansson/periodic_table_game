@@ -19,6 +19,7 @@ header{
 
 main{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -46,6 +47,110 @@ footer{
     font-family: 'Caveat';
 }
 
-header, footer{
+header, footer, html{
     background-color: #001939;
 }
+
+.game-info-window{
+    background-color: #002759;
+    border-radius: 6%;
+
+    width: 640px;
+    height: 400px;
+}
+
+.game-info-window > #timer{
+    position: absolute;
+    background-color: transparent;
+
+    width: 640px;
+    text-align: end;
+
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.game-info-window > #score{
+    position: absolute;
+    background-color: transparent;
+
+    width: 640px;
+    text-align: start;
+
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.game-info-window > #question{
+    position: absolute;
+    background-color: transparent;
+
+    width: 640px;
+    height: 400px;
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: end;
+
+    padding-bottom: 48px;
+}
+
+.game-info-window > .element-card-container{
+    position: absolute;
+    background-color: transparent;
+
+    width: 640px;
+    height: 400px;
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.element-card-container > .element-card{
+    font-size: 100pt;
+    color: black;
+
+    background-color: white;
+
+    width: 192px;
+    height: 192px;
+    border-radius: 16%;
+
+    margin-bottom: 58px;
+}
+
+#game-answer-buttons-container{
+    background-color: transparent;
+    margin-top: 64px;
+
+    width: 640px;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 32px;
+}
+
+#game-answer-buttons-container > button{
+    flex: 0 0 auto;
+    width: 256px;
+    height: 50px;
+    border: none;
+
+    border-radius: 25px;
+
+    font-family: 'Dongle';
+    font-size: 28pt;
+}
+
+
+#game-answer-buttons-container > button:hover{
+    background-color: grey;
+}
+
+

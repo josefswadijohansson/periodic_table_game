@@ -1,12 +1,13 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import GameWindow from './GameWindow';
 
 function App(){
     return (
     <div>
         <Header />
-        <h1>Hello world</h1>
+        <GameWindow />
         <Footer />
     </div>
     );

@@ -5,26 +5,33 @@
 }
 
 html{
-    background-color: #D6C0B3;
+    
+    color: white;
     overflow: hidden;
+
+    font-family: 'Dongle';
 }
 
 header{
-    height: 92px;
+    height: 64px;
     width: 100vw;
-    border-radius: 32px;
+}
 
-    margin-top: -32px;
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    background-color: #AB886D;
+    height: 86.6vh;
+
+    background-color: #00224D;
 }
 
 footer{
     position: absolute;
     bottom: 0;
-    height: 92px;
+    height: 64px;
     width: 100vw;
-    margin-bottom: -32px;
 
     display: flex;
     justify-content: center;
@@ -37,12 +44,8 @@ footer{
     user-select: none; /* Standard syntax */
 
     font-family: 'Caveat';
-
-    background-color: #AB886D;
-
-    border-radius: 32px;
 }
 
-footer > h2{
-    margin-bottom: 32px;
+header, footer{
+    background-color: #001939;
 }

@@ -5,7 +5,7 @@ function Score(props){
 
     return (
         <div id="score">
-           <span style={emojiStyle}>✅</span> {props.score} / <span style={emojiStyle}>❌</span> {props.wrongs} / {props.possibleScore}
+           <span style={emojiStyle}>✅</span> {props.rights} / <span style={emojiStyle}>❌</span> {props.wrongs} / {props.possibleScore}
         </div>
     );
 }

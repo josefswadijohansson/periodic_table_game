@@ -59,6 +59,19 @@ header, footer, html{
     height: 400px;
 }
 
+.game-info-window > .score-info{
+    font-size: 30pt;
+
+    width: 640px;
+    height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .game-info-window > #timer{
     position: absolute;
     background-color: transparent;

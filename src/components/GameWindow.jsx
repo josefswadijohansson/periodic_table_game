@@ -10,6 +10,9 @@ function GameWindow(props){
     const [correctElementButton, setCorrectElement] = useState("answer-4");
     const [selectedElement, setSelectedElement] = useState("");
     const [buttonTexts, setButtonTexts] = useState([{text:""}, {text:""}, {text:""}, {text:""}]); 
+    const [remaningElements, setRemaningElements] = useState([]);
+    const [rightAnswerCount, setRightAnswerCount] = useState(0);
+    const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
     useEffect(() => {
         startGame(props.mode);
@@ -18,46 +21,86 @@ function GameWindow(props){
     function handleClick(event){
         const {value} = event.target;
 
-        alert(value === correctElementButton);
+        //alert(value === correctElementButton);
 
-        //startGame(props.mode);
+        if(value === correctElementButton){
+            setRightAnswerCount(rightAnswerCount + 1);
+        } else{
+            setWrongAnswerCount(wrongAnswerCount + 1);
+        }
+
+        if(remaningElements.length > 0){
+            getNewSet(remaningElements);
+        } else{
+            
+            alert("Thanks for playing");
+            //startGame(props.mode);
+        }
     }
 
-    function getRandomUniqueElements(array, count) {
-        const shuffledArray = [...array].sort(() => Math.random() - 0.5);   // Shuffle the input array
-        return shuffledArray.slice(0, count);   // Then picks first {count} values
+    function getRandomUniqueElements(array, count, filteredElement) {
+
+        if(filteredElement === undefined || filteredElement === null){
+            const shuffledArray = [...array].sort(() => Math.random() - 0.5);   // Shuffle the input array
+            return shuffledArray.slice(0, count);   // Then picks first {count} values
+        } else{
+            const filteredInput = [...array].filter( (element) => {
+                return element.name !== filteredElement.name;
+            });
+            const shuffledArray = filteredInput.sort(() => Math.random() - 0.5);   // Shuffle the input array
+            return shuffledArray.slice(0, count);   // Then picks first {count} values
+        }
+
     }
 
     function startGame(mode){
         if (mode === "speedMode") {
-            const [randomSelectedElement, randomElement1, randomElement2, randomElement3] = getRandomUniqueElements(periodicTable, 4);
 
-            setSelectedElement(randomSelectedElement);
+            setWrongAnswerCount(0);
+            setRightAnswerCount(0);
 
-            console.log("Showcasing Element:", randomSelectedElement);
-            console.log("Random Elements:", randomElement1, randomElement2, randomElement3);
+            const newArray = [...periodicTable].splice(0,10);
 
-            let newArray = [{text:randomSelectedElement.name}, {text:randomElement1.name}, {text:randomElement2.name}, {text:randomElement3.name}];
+            setRemaningElements(newArray);
 
-            newArray = [...newArray].sort(() => Math.random() - 0.5);
-
-            const selectedButtonIndex = newArray.findIndex( (element) => {
-                return element.text === randomSelectedElement.name;
-            });
-
-            console.log(selectedButtonIndex + 1);
-
-            setCorrectElement(`answer-${selectedButtonIndex+1}`);
-
-            setButtonTexts(newArray);
+            getNewSet(newArray);
         }
+    }
+
+    function getNewSet(array){
+        if(array == null || array === undefined){
+            return; 
+        }
+
+        const [randomSelectedElement] = getRandomUniqueElements(array, 1);
+        const [randomElement1, randomElement2, randomElement3] = getRandomUniqueElements(periodicTable, 3, randomSelectedElement);
+
+        setSelectedElement(randomSelectedElement);
+
+        let newArray = [{text:randomSelectedElement.name}, {text:randomElement1.name}, {text:randomElement2.name}, {text:randomElement3.name}];
+
+        newArray = [...newArray].sort(() => Math.random() - 0.5);
+
+        const selectedButtonIndex = newArray.findIndex( (element) => {
+            return element.text === randomSelectedElement.name;
+        });
+
+        setCorrectElement(`answer-${selectedButtonIndex+1}`);
+
+        setButtonTexts(newArray);
+
+        setRemaningElements((prevValues) => {
+            return prevValues.filter( (element) => {
+                return element.name !== randomSelectedElement.name;
+            } );
+        });
     }
 
     return (
     <main>
         <div className='game-info-window'>
             <Timer time={30}/>
-            <Score score={5} possibleScore={periodicTable.length}/>
+            <Score score={rightAnswerCount} wrongs={wrongAnswerCount} possibleScore={remaningElements.length}/>
             <div className='element-card-container'>
                 <ElementCard symbol={selectedElement.symbol}/>
             </div>

@@ -11,7 +11,8 @@ function GameWindow(props){
 
     const [correctElementButton, setCorrectElement] = useState("answer-4");
     const [selectedElement, setSelectedElement] = useState("");
-    const [buttonTexts, setButtonTexts] = useState([{text:""}, {text:""}, {text:""}, {text:""}]); 
+    const [buttonTexts, setButtonTexts] = useState([{text:""}, {text:""}, {text:""}, {text:""}]);
+    const [buttonsColor, setButtonColor] = useState([{color:"white"}, {color:"white"}, {color:"white"}, {color:"white"}]); 
     const [remaningElements, setRemaningElements] = useState([]);
     const [rightAnswerCount, setRightAnswerCount] = useState(0);
     const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
@@ -31,9 +32,18 @@ function GameWindow(props){
 
         setIsInputAcceptable(false);
         
+        let newColor = [{color:"red"}, {color:"red"}, {color:"red"}, {color:"red"}];
+
+        const correctButtonIndex = buttonTexts.findIndex( (element) => {
+            return selectedElement.name === element.text;
+        });
+
+        newColor[correctButtonIndex].color = "green";
+
+        setButtonColor(newColor);
+
         if(value === correctElementButton){
             setRightAnswerCount(rightAnswerCount + 1);
-
             setSelectedElement( {symbol:"✅"});
         } else{
             setWrongAnswerCount(wrongAnswerCount + 1);
@@ -45,12 +55,13 @@ function GameWindow(props){
                 getNewSet(remaningElements);
                 setTimer([{timerCount:timePerQuestion, doCount:true}]);
                 setIsInputAcceptable(true);
+                setButtonColor([{color:"white"}, {color:"white"}, {color:"white"}, {color:"white"}]);
             } else{
                 
                 setTimer([{timerCount:0, doCount:false}]);
                 endGame();
             }
-        }, 300);
+        }, 700);
     }
 
     function getRandomUniqueElements(array, count, filteredElement) {
@@ -117,19 +128,31 @@ function GameWindow(props){
     }
 
     function handleTimerEnd(){
+
+        let newColor = [{color:"red"}, {color:"red"}, {color:"red"}, {color:"red"}];
+
+        const correctButtonIndex = buttonTexts.findIndex( (element) => {
+            return selectedElement.name === element.text;
+        });
+
+        newColor[correctButtonIndex].color = "green";
+
+        setButtonColor(newColor);
+
+        setWrongAnswerCount(wrongAnswerCount + 1);
         setSelectedElement( {symbol:"❌"});
-        setWrongAnswerCount( wrongAnswerCount + 1);
 
         setTimeout(() => {
             if(remaningElements.length > 0){
                 getNewSet(remaningElements);
                 setTimer([{timerCount:timePerQuestion, doCount:true}]);
                 setIsInputAcceptable(true);
+                setButtonColor([{color:"white"}, {color:"white"}, {color:"white"}, {color:"white"}]);
             } else{
                 setTimer([{timerCount:0, doCount:false}]);
                 endGame();
             }
-        }, 300);
+        }, 1000);
     }
 
     function endGame(){
@@ -172,12 +195,19 @@ function GameWindow(props){
         </div>}
 
         { !isGameOver ? 
-        <div id='game-answer-buttons-container'>
-            <button onClick={isInputAcceptable ? handleClick : null} id="game-answer-button-1" value={"answer-1"}>{isInputAcceptable ? buttonTexts[0].text : null}</button>
-            <button onClick={isInputAcceptable ? handleClick : null} id="game-answer-button-2" value={"answer-2"}>{isInputAcceptable ? buttonTexts[1].text : null}</button>
-            <button onClick={isInputAcceptable ? handleClick : null} id="game-answer-button-3" value={"answer-3"}>{isInputAcceptable ? buttonTexts[2].text : null}</button>
-            <button onClick={isInputAcceptable ? handleClick : null} id="game-answer-button-4" value={"answer-4"}>{isInputAcceptable ? buttonTexts[3].text : null}</button>
-        </div> : 
+            <div id="game-answer-buttons-container">
+        {buttonTexts.map((button, index) => (
+            <button
+                key={index}
+                style={{ backgroundColor: buttonsColor[index].color }}
+                onClick={isInputAcceptable ? handleClick : null}
+                id={`game-answer-button-${index + 1}`}
+                value={`answer-${index + 1}`}
+            >
+                {button.text}
+            </button>
+        ))}
+    </div> : 
         <div id='game-answer-buttons-container'>
             <button onClick={handleAgainClicked}>Again</button>
             <button onClick={handleBackClicked}>Back</button>

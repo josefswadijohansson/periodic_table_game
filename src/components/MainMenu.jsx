@@ -7,7 +7,7 @@ function MainMenu(props){
             <div id='main-menu-container'>
                 <img src={logo} alt=''/>
                 <button onClick={props.onPlayClicked}>Play</button>
-                <button>About</button>
+                <button onClick={props.onAboutClicked}>About</button>
             </div>
         </main>
     );

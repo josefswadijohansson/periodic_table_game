@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import GameWindow from './GameWindow';
 import MainMenu from './MainMenu';
+import About from './About';
 
 function App(){
 
@@ -14,13 +15,12 @@ function App(){
         setGameState("game");
     }
 
-    function handleSomethingModeClick(){
-        setGameWindow([{mode:"somethingMode"}]);
-        setGameState("game");
-    }
-
     function handlePlayClicked(){
         handleSpeedModeClick();
+    }
+
+    function handleAboutClicked(){
+        setGameState("about");
     }
 
     function handleReturnToMainMenu(){
@@ -30,11 +30,11 @@ function App(){
 
     return (
     <div>
-        <Header />
+        <Header state={gameState} onReturnToMainMenu={handleReturnToMainMenu}/>
         {
             gameState === "game" ? (gameWindow.map( (x, index) => {
                 return <GameWindow key={index} mode={x.mode} onReturnToMainMenu={handleReturnToMainMenu}/>
-            })) : <MainMenu onPlayClicked={handlePlayClicked}/>
+            })) : (gameState === "about" ? <About/> : <MainMenu onPlayClicked={handlePlayClicked} onAboutClicked={handleAboutClicked}/>)
         }
         {/*  */}
         <Footer />

@@ -20,7 +20,7 @@ function GameWindow(props){
 
     const [isGameOver, setIsGameOver] = useState(false);
 
-    const timePerQuestion = 5;
+    const timePerQuestion = 10;
 
     useEffect(() => {
         startGame(props.mode);
@@ -79,7 +79,7 @@ function GameWindow(props){
             setWrongAnswerCount(0);
             setRightAnswerCount(0);
 
-            const newArray = [...periodicTable].splice(0, 3);
+            const newArray = [...periodicTable];
 
             setRemaningElements(newArray);
 

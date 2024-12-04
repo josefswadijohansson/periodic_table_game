@@ -20,8 +20,7 @@ function App(){
         <button onClick={handleSpeedModeClick}>Speed Mode</button>
         <button onClick={handleSomethingModeClick}>Something Mode</button>
         <Header />
-        {
-            gameWindow.map( (x, index) => {
+        {gameWindow.map( (x, index) => {
             return <GameWindow key={index} mode={x.mode}/>
         })}
         <Footer />

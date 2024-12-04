@@ -29,8 +29,6 @@ function GameWindow(props){
     function handleClick(event){
         const {value} = event.target;
 
-        //alert(value === correctElementButton);
-
         setIsInputAcceptable(false);
         
         if(value === correctElementButton){
@@ -81,7 +79,7 @@ function GameWindow(props){
             setWrongAnswerCount(0);
             setRightAnswerCount(0);
 
-            const newArray = [...periodicTable].splice(0, 10);
+            const newArray = [...periodicTable].splice(0, 3);
 
             setRemaningElements(newArray);
 
@@ -120,6 +118,7 @@ function GameWindow(props){
 
     function handleTimerEnd(){
         setSelectedElement( {symbol:"❌"});
+        setWrongAnswerCount( wrongAnswerCount + 1);
 
         setTimeout(() => {
             if(remaningElements.length > 0){
@@ -142,7 +141,7 @@ function GameWindow(props){
     }
 
     function handleBackClicked(){
-        alert("Going back to main menu");
+        props.onReturnToMainMenu();
     }
 
     return (
@@ -160,7 +159,7 @@ function GameWindow(props){
                 <ElementCard symbol={selectedElement.symbol}/>
             </div>
 
-            <Question question={"What do you call this element?"}/>)
+            <Question question={"What do you call this element?"}/>
         </div> :
         <div className='game-info-window'>
             <div className='score-info'>
@@ -180,8 +179,8 @@ function GameWindow(props){
             <button onClick={isInputAcceptable ? handleClick : null} id="game-answer-button-4" value={"answer-4"}>{isInputAcceptable ? buttonTexts[3].text : null}</button>
         </div> : 
         <div id='game-answer-buttons-container'>
-        <button onClick={handleAgainClicked}>Again</button>
-        <button onClick={handleBackClicked}>Back</button>
+            <button onClick={handleAgainClicked}>Again</button>
+            <button onClick={handleBackClicked}>Back</button>
         </div>}
     </main>);
 }

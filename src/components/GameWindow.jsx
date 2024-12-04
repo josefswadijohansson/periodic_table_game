@@ -21,6 +21,7 @@ function GameWindow(props){
 
     const [isGameOver, setIsGameOver] = useState(false);
 
+    const delayBetweenSet = 1200;
     const timePerQuestion = 10;
 
     useEffect(() => {
@@ -32,13 +33,13 @@ function GameWindow(props){
 
         setIsInputAcceptable(false);
         
-        let newColor = [{color:"red"}, {color:"red"}, {color:"red"}, {color:"red"}];
+        let newColor = [{color:"#ff3535"}, {color:"#ff3535"}, {color:"#ff3535"}, {color:"#ff3535"}];
 
         const correctButtonIndex = buttonTexts.findIndex( (element) => {
             return selectedElement.name === element.text;
         });
 
-        newColor[correctButtonIndex].color = "green";
+        newColor[correctButtonIndex].color = "#3bb337";
 
         setButtonColor(newColor);
 
@@ -61,22 +62,35 @@ function GameWindow(props){
                 setTimer([{timerCount:0, doCount:false}]);
                 endGame();
             }
-        }, 700);
+        }, delayBetweenSet);
     }
 
     function getRandomUniqueElements(array, count, filteredElement) {
-
-        if(filteredElement === undefined || filteredElement === null){
-            const shuffledArray = [...array].sort(() => Math.random() - 0.5);   // Shuffle the input array
-            return shuffledArray.slice(0, count);   // Then picks first {count} values
-        } else{
-            const filteredInput = [...array].filter( (element) => {
-                return element.name !== filteredElement.name;
+        if (!filteredElement) {
+            const shuffledArray = [...array].sort(() => Math.random() - 0.5); // Shuffle the array
+            return shuffledArray.slice(0, count); // Return random elements
+        } else {
+            // Find elements starting with the same first letter as the filteredElement
+            const similarElements = array.filter((element) => {
+                const startsWithSameLetter =
+                    element.name[0].toLowerCase() === filteredElement.name[0].toLowerCase();
+                const isNotSameElement = element.name !== filteredElement.name;
+                return startsWithSameLetter && isNotSameElement;
             });
-            const shuffledArray = filteredInput.sort(() => Math.random() - 0.5);   // Shuffle the input array
-            return shuffledArray.slice(0, count);   // Then picks first {count} values
+    
+            // If we don't have enough similar elements, fall back to random ones
+            let remainingElements = array.filter((el) => el.name !== filteredElement.name);
+            let finalSelection = similarElements.slice(0, count);
+    
+            if (finalSelection.length < count) {
+                const randomElements = remainingElements
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, count - finalSelection.length);
+                finalSelection = [...finalSelection, ...randomElements];
+            }
+    
+            return finalSelection;
         }
-
     }
 
     function startGame(mode){
@@ -98,44 +112,44 @@ function GameWindow(props){
         }
     }
 
-    function getNewSet(array){
-        if(array == null || array === undefined){
-            return; 
-        }
-
+    function getNewSet(array) {
+        if (!array || array.length === 0) return;
+    
         const [randomSelectedElement] = getRandomUniqueElements(array, 1);
-        const [randomElement1, randomElement2, randomElement3] = getRandomUniqueElements(periodicTable, 3, randomSelectedElement);
-
+    
+        const distractors = getRandomUniqueElements(periodicTable, 3, randomSelectedElement);
+    
         setSelectedElement(randomSelectedElement);
-
-        let newArray = [{text:randomSelectedElement.name}, {text:randomElement1.name}, {text:randomElement2.name}, {text:randomElement3.name}];
-
-        newArray = [...newArray].sort(() => Math.random() - 0.5);
-
-        const selectedButtonIndex = newArray.findIndex( (element) => {
-            return element.text === randomSelectedElement.name;
-        });
-
-        setCorrectElement(`answer-${selectedButtonIndex+1}`);
-
+    
+        // Combine correct answer and distractors
+        let newArray = [
+            { text: randomSelectedElement.name },
+            ...distractors.map((el) => ({ text: el.name })),
+        ];
+    
+        newArray = newArray.sort(() => Math.random() - 0.5);
+    
+        const selectedButtonIndex = newArray.findIndex(
+            (element) => element.text === randomSelectedElement.name
+        );
+    
+        setCorrectElement(`answer-${selectedButtonIndex + 1}`);
         setButtonTexts(newArray);
-
-        setRemaningElements((prevValues) => {
-            return prevValues.filter( (element) => {
-                return element.name !== randomSelectedElement.name;
-            } );
-        });
+    
+        setRemaningElements((prevValues) =>
+            prevValues.filter((element) => element.name !== randomSelectedElement.name)
+        );
     }
 
     function handleTimerEnd(){
 
-        let newColor = [{color:"red"}, {color:"red"}, {color:"red"}, {color:"red"}];
+        let newColor = [{color:"#ff3535"}, {color:"#ff3535"}, {color:"#ff3535"}, {color:"#ff3535"}];
 
         const correctButtonIndex = buttonTexts.findIndex( (element) => {
             return selectedElement.name === element.text;
         });
 
-        newColor[correctButtonIndex].color = "green";
+        newColor[correctButtonIndex].color = "#3bb337";
 
         setButtonColor(newColor);
 
@@ -152,7 +166,7 @@ function GameWindow(props){
                 setTimer([{timerCount:0, doCount:false}]);
                 endGame();
             }
-        }, 1000);
+        }, delayBetweenSet);
     }
 
     function endGame(){

@@ -28,4 +28,3 @@ A guessing game about the periodic table, where questions are about the elements
 - Introduce more ways to input answer like an input field, rather than only having 4 option answer field.
 - Categorise the elements into their room temp state, : Solid, Liquid, Gas, etc.
 - Add isotopes
-- 

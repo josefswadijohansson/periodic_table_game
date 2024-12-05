@@ -25,8 +25,8 @@ function GameWindow(props){
     const questionTypes = ['nameFromSymbol', 'massFromName', 'symbolFromName', 'numberFromSymbol'];
     const [currentQuestion, setCurrentQuestion] = useState({questionType:'', question:''});
 
-    const delayBetweenSet = 1200;
-    const timePerQuestion = 10;
+    const delayBetweenSet = 1500;
+    const timePerQuestion = 15;
 
     useEffect(() => {
         startGame(props.mode);
@@ -173,7 +173,7 @@ function GameWindow(props){
 
             let newArray = [...periodicTable];
 
-            newArray = getRandomUniqueElements(newArray, 20);
+            newArray = getRandomUniqueElements(newArray, 15);
             
             setRemainingElements(newArray);
 

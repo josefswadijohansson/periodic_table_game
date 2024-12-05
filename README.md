@@ -15,9 +15,9 @@ A guessing game about the periodic table, where questions are about the elements
 ## Screenshots
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-  <img src="https://github.com/josefswadijohansson/periodic_table_game/blob/main/screenshots/screenshot_1.png?raw=true" alt="Screenshot 1" width="320">
-  <img src="https://github.com/josefswadijohansson/periodic_table_game/blob/main/screenshots/screenshot_2.png?raw=true" alt="Screenshot 2" width="320">
-  <img src="https://github.com/josefswadijohansson/periodic_table_game/blob/main/screenshots/screenshot_3.png?raw=true" alt="Screenshot 3" width="320">
+  <img src="https://github.com/josefswadijohansson/periodic_table_game/blob/main/screenshots/screenshot_1.png?raw=true" alt="Screenshot 1" width="250">
+  <img src="https://github.com/josefswadijohansson/periodic_table_game/blob/main/screenshots/screenshot_2.png?raw=true" alt="Screenshot 2" width="250">
+  <img src="https://github.com/josefswadijohansson/periodic_table_game/blob/main/screenshots/screenshot_3.png?raw=true" alt="Screenshot 3" width="250">
 </div>
 
 ## Gif

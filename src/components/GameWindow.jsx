@@ -45,7 +45,7 @@ function GameWindow(props){
             case "nameFromSymbol":
                 // Showcasing symbol getting a name
                 correctButtonIndex = buttonTexts.findIndex( (answerValue) => {
-                    return `${answerValue.text}` == `${selectedElement.name}`;
+                    return `${answerValue.text}` === `${selectedElement.name}`;
                 });
                 break;
             case "massFromName":
@@ -66,6 +66,9 @@ function GameWindow(props){
                     return `${answerValue.text}` === `${selectedElement.symbol}`;
                 });
                 break;
+            default :
+                correctButtonIndex = -1;
+                break;
         }
 
         if(correctButtonIndex === -1){
@@ -80,7 +83,7 @@ function GameWindow(props){
 
         setButtonColor(newColor);
 
-        if(isCorrectAnswer(currentQuestion, value) == true){
+        if(isCorrectAnswer(currentQuestion, value) === true){
             setRightAnswerCount(rightAnswerCount + 1);
             setSelectedElement( {symbol:"✅", atomic_number:"✅"});
         } else{
@@ -103,8 +106,6 @@ function GameWindow(props){
     }
 
     function isCorrectAnswer(question, value){
-        console.log(question);
-
         if(question.questionType === ""){
             alert("Error: no current question type");
             handleBackClicked();
@@ -114,27 +115,19 @@ function GameWindow(props){
         switch (question.questionType) {
             case "nameFromSymbol":
                 // Showcasing symbol getting a name
-                //TODO: get the current selected element, and check it against the inputed name
                 return selectedElement.name === value;
-                break;
             case "massFromName":
                 // Showcasing name and getting a number
-                //TODO: get the current selected element, and check it against the inputed number
-                return `${selectedElement.atomic_number}` == `${value}`;
-                break;
+                return `${selectedElement.atomic_number}` === `${value}`;
             case "symbolFromName":
                 // Showcasing name and getting a symbol
-                //TODO: get the current selected element, and check it against the inputed symbol
                 return selectedElement.symbol === value;
-                break;
             case "numberFromSymbol":
                 // Showcasing number and getting a symbol
-                //TODO: get the current selected element, and check it against the inputed symbol
                 return selectedElement.symbol === value;
-                break;
+            default:
+                return false;
         }
-
-        return false;
     }
 
     function getRandomUniqueElements(array, count, filteredElement) {
@@ -168,6 +161,8 @@ function GameWindow(props){
     function startGame(mode){
         if (mode === "speedMode") {
 
+            setButtonColor([{color:"white"}, {color:"white"}, {color:"white"}, {color:"white"}]);
+
             setIsGameOver(false);
 
             setIsInputAcceptable(true);
@@ -176,8 +171,10 @@ function GameWindow(props){
             setWrongAnswerCount(0);
             setRightAnswerCount(0);
 
-            const newArray = [...periodicTable];
+            let newArray = [...periodicTable];
 
+            newArray = getRandomUniqueElements(newArray, 20);
+            
             setRemainingElements(newArray);
 
             getNewSet(newArray);
@@ -195,10 +192,9 @@ function GameWindow(props){
     
         setSelectedElement(randomSelectedElement);
     
-        // Combine correct answer and distractors
-
         let newArray = [];
 
+        // Combine correct answer and distractors
         switch (question.questionType) {
             case "nameFromSymbol":
                 // Showcasing symbol getting a name
@@ -228,13 +224,11 @@ function GameWindow(props){
                     ...distractors.map((el) => ({ text: el.symbol })),
                 ];
                 break;
+            default:
+                break;
         }
 
         newArray = newArray.sort(() => Math.random() - 0.5);
-    
-        const selectedButtonIndex = newArray.findIndex(
-            (element) => element.text === randomSelectedElement.name
-        );
 
         setButtonTexts(newArray);
     
@@ -244,8 +238,6 @@ function GameWindow(props){
     }
 
     function handleTimerEnd(){
-
-
         let newColor = [{color:"#ff3535"}, {color:"#ff3535"}, {color:"#ff3535"}, {color:"#ff3535"}];
 
         let correctButtonIndex = -1;
@@ -254,7 +246,7 @@ function GameWindow(props){
             case "nameFromSymbol":
                 // Showcasing symbol getting a name
                 correctButtonIndex = buttonTexts.findIndex( (answerValue) => {
-                    return `${answerValue.text}` == `${selectedElement.name}`;
+                    return `${answerValue.text}` === `${selectedElement.name}`;
                 });
                 break;
             case "massFromName":
@@ -274,6 +266,9 @@ function GameWindow(props){
                 correctButtonIndex = buttonTexts.findIndex( (answerValue) => {
                     return `${answerValue.text}` === `${selectedElement.symbol}`;
                 });
+                break;
+            default:
+                correctButtonIndex = -1;
                 break;
         }
 
@@ -338,6 +333,8 @@ function GameWindow(props){
                 // Showcasing number and getting a symbol
                 newQuestion.question = `What atomic number is for this element?`;
                 break;
+            default:
+                break;
         }
 
         setCurrentQuestion(newQuestion);
@@ -354,22 +351,23 @@ function GameWindow(props){
                     return <Timer key={Math.random()} time={x.timerCount} onTimerEnd={handleTimerEnd} doCount={x.doCount}/>
                 })
             }
+
             <Score rights={rightAnswerCount} wrongs={wrongAnswerCount} possibleScore={remainingElements.length}/>
+
             { currentQuestion.questionType === "nameFromSymbol" || currentQuestion.questionType === "numberFromSymbol" ? 
             <div className='element-card-container'>
                 <ElementCard symbol={currentQuestion.questionType === "nameFromSymbol" ? selectedElement.symbol : `${selectedElement.atomic_number}`}/>
             </div> : 
-            
             (currentQuestion.questionType !== "nameFromSymbol" && currentQuestion.questionType !== "numberFromSymbol" ? 
             <div className='element-card-container'>
                 {selectedElement.symbol === "✅" || selectedElement.symbol === "❌" ? <ElementCard symbol={ selectedElement.symbol}/> : null}
             </div> : null)}
 
-            <Question question={currentQuestion.question}/>
+            <Question question={currentQuestion.question} questionType={currentQuestion.questionType}/>
         </div> :
         <div className='game-info-window'>
             <div className='score-info'>
-                Well done !
+                Game over !
                 <div style={{display:'flex', gap:"20px"}}>
                     <span><span style={{fontSize:"17pt"}}>✅</span> {rightAnswerCount}</span> 
                     <span><span style={{fontSize:"17pt"}}>❌</span> {wrongAnswerCount}</span> 

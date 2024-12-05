@@ -323,11 +323,11 @@ function GameWindow(props){
                 break;
             case "massFromName":
                 // Showcasing name and getting a number
-                newQuestion.question = `What atomic number is for ${element.name}?`;
+                newQuestion.question = `${element.name}, atomic number is ?`;
                 break;
             case "symbolFromName":
                 // Showcasing name and getting a symbol
-                newQuestion.question = `What symbol is for ${element.name}?`;
+                newQuestion.question = `What symbol is for, ${element.name}?`;
                 break;
             case "numberFromSymbol":
                 // Showcasing number and getting a symbol
